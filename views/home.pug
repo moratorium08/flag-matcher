@@ -5,6 +5,21 @@ block content
   p.lead A boilerplate for Node.js web applications.
   hr
   .row
+    table.table
+      thead
+        tr
+          th #
+          th Title
+          th Author
+          th Solvers
+      tbody
+        each problem in problems
+          tr
+            th.row(style={width: '210px'})= problem._id
+            td= problem.title
+            td= problem.author.profile.name
+            td= problem.solvers.length
+  .row
     form.form-horizontal(method='POST', action='/problem')
       input(type='hidden', name='_csrf', value=_csrf)
       .form-group
@@ -20,23 +35,3 @@ block content
           button.btn.btn-primary(type='submit')
             i.fa.fa-envelope
             | Send
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
