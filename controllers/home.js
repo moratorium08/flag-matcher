@@ -15,22 +15,6 @@ exports.index = (req, res) => {
 };
 
 /**
- * GET /problem/:id
- */
-exports.getProblem = (req, res, next) => {
-  const id = req.params.id;
-
-  Problem.findOne({ _id: id }).populate('author').exec((err, problem) => {
-    if (err) { return next(err); }
-    console.log(problem);
-    res.render('Problem', {
-      title: problem.title,
-      problem,
-    });
-  });
-};
-
-/**
  * POST /problem
  */
 exports.postProblem = (req, res, next) => {
@@ -48,5 +32,50 @@ exports.postProblem = (req, res, next) => {
   problem.save((err) => {
     if (err) { return next(err); }
     res.redirect('/');
+  });
+};
+
+/**
+ * GET /problem/:id
+ */
+exports.getProblem = (req, res, next) => {
+  const id = req.params.id;
+
+  Problem.findOne({ _id: id }).populate('author').populate('solvers').exec((err, problem) => {
+    if (err) { return next(err); }
+    if (!problem) { return next(); }
+    res.render('problem', {
+      title: problem.title,
+      problem,
+    });
+  });
+};
+
+/**
+ * POST /problem/:id
+ */
+exports.postFlag = (req, res, next) => {
+  const id = req.params.id;
+  req.assert('flag', 'Flag must be at least 4 characters long').len(4);
+
+  Problem.findOne({ _id: id }).populate('author').exec((err, problem) => {
+    if (err) { return next(err); }
+    if (!problem) { return next(); }
+
+    problem.compareFlag(req.body.flag, (err, isMatch) => {
+      if (err) { return next(err); }
+
+      if (!isMatch) {
+        req.flash('errors', { msg: 'Flag not match' });
+        res.redirect(`/problem/${id}`);
+      } else {
+        req.flash('info', { msg: 'Flag matched' });
+        problem.solvers.push(req.user._id);
+        problem.save((err) => {
+          if (err) { return next(err); }
+          res.redirect(`/problem/${id}`);
+        });
+      }
+    });
   });
 };

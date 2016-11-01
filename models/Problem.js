@@ -10,7 +10,7 @@ const problemSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 /**
- * Password hash middleware.
+ * Flag hash middleware.
  */
 problemSchema.pre('save', function save(next) {
   const user = this;
@@ -28,8 +28,8 @@ problemSchema.pre('save', function save(next) {
 /**
  * Helper method for validating user's password.
  */
-problemSchema.methods.comparePassword = function comparePassword(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.flag, (err, isMatch) => {
+problemSchema.methods.compareFlag = function compareFlag(candidateFlag, cb) {
+  bcrypt.compare(candidateFlag, this.flag, (err, isMatch) => {
     cb(err, isMatch);
   });
 };
