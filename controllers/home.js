@@ -47,6 +47,7 @@ exports.getProblem = (req, res, next) => {
     res.render('problem', {
       title: problem.title,
       problem,
+      isSolved: problem.solvers.some(solver => solver.equals(req.user._id)),
     });
   });
 };
@@ -58,9 +59,14 @@ exports.postFlag = (req, res, next) => {
   const id = req.params.id;
   req.assert('flag', 'Flag must be at least 4 characters long').len(4);
 
-  Problem.findOne({ _id: id }).populate('author').exec((err, problem) => {
+  Problem.findOne({ _id: id }).exec((err, problem) => {
     if (err) { return next(err); }
     if (!problem) { return next(); }
+
+    if (problem.solvers.some(solver => solver.equals(req.user._id))) {
+      req.flash('errors', { msg: 'You already solved this problem' });
+      return res.redirect(`/problem/${id}`);
+    }
 
     problem.compareFlag(req.body.flag, (err, isMatch) => {
       if (err) { return next(err); }
