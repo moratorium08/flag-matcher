@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= problem.title
+  p
+    strong Author
+    | :
+    = problem.author.profile.name
+  pre= problem.description
+  .row
+    form.form-horizontal(method='POST', action='/problem')
+      input(type='hidden', name='_csrf', value=_csrf)
+      .form-group
+        label(class='col-sm-2 control-label', for='title') Title
+        .col-sm-8
+          input.form-control(type='text', name='title', id='title')
+      .form-group
+        label(class='col-sm-2 control-label', for='flag') Flag
+        .col-sm-8
+          input.form-control(type='text', name='flag', id='flag')
+      .form-group
+        .col-sm-offset-2.col-sm-8
+          button.btn.btn-primary(type='submit')
+            i.fa.fa-envelope
+            | Send
