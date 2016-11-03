@@ -19,7 +19,7 @@ block content
               th.row(style={width: '210px'})= problem._id
               td
                 a(href=`/problem/${problem._id}`)= problem.title
-              td= problem.author.profile.name
+              td= problem.author.name()
               td= problem.solvers.length
   .row
     h2 Add Problem

@@ -65,6 +65,10 @@ userSchema.methods.gravatar = function gravatar(size) {
   return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
 };
 
+userSchema.methods.name = function name() {
+  return this.email.replace(/@.+$/, '');
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

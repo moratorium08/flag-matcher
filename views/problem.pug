@@ -3,12 +3,12 @@ extends layout
 block content
   h1= problem.title
   h2 Author
-  p= problem.author.profile.name
+  p= problem.author.name()
   pre= problem.description
   h2 Solvers
   ul
     each solver in problem.solvers
-      li= solver.profile.name
+      li= solver.name()
   if isSolved
     p You already solved this problem :)
   else
