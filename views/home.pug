@@ -5,21 +5,22 @@ block content
   p.lead CAUTION! No flags are there in this app.
   hr
   .row
-    table.table
-      thead
-        tr
-          th #
-          th Title
-          th Author
-          th Solvers
-      tbody
-        each problem in problems
+    .table-responsive
+      table.table
+        thead
           tr
-            th.row(style={width: '210px'})= problem._id
-            td
-              a(href=`/problem/${problem._id}`)= problem.title
-            td= problem.author.profile.name
-            td= problem.solvers.length
+            th #
+            th Title
+            th Author
+            th Solvers
+        tbody
+          each problem in problems
+            tr
+              th.row(style={width: '210px'})= problem._id
+              td
+                a(href=`/problem/${problem._id}`)= problem.title
+              td= problem.author.profile.name
+              td= problem.solvers.length
   .row
     h2 Add Problem
     form.form-horizontal(method='POST', action='/problem')
