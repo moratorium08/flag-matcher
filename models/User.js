@@ -66,7 +66,7 @@ userSchema.methods.gravatar = function gravatar(size) {
 };
 
 userSchema.methods.name = function name() {
-  return this.email.replace(/@.+$/, '');
+  return `@${this.email.replace(/@.+$/, '')}`;
 };
 
 const User = mongoose.model('User', userSchema);
