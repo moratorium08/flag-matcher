@@ -17,6 +17,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
+const enforce = require('express-sslify');
 const sass = require('node-sass-middleware');
 
 /**
@@ -60,6 +61,9 @@ mongoose.connection.on('error', () => {
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+if (process.env.NODE_ENV === 'production') {
+  app.use(enforce.HTTPS({ trustProtoHeader: true }));
+}
 app.use(expressStatusMonitor());
 app.use(compression());
 app.use(sass({
