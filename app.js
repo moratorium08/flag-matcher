@@ -18,6 +18,7 @@ const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const enforce = require('express-sslify');
+const basicAuth = require('basic-auth-connect');
 const sass = require('node-sass-middleware');
 
 /**
@@ -36,6 +37,9 @@ const contactController = require('./controllers/contact');
  * API keys and Passport configuration.
  */
 const passportConfig = require('./config/passport');
+
+const authUser = process.env.AUTH_USER || Math.random().toString();
+const authPass = process.env.AUTH_PASSWORD || Math.random().toString();
 
 /**
  * Create Express server.
@@ -63,6 +67,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 if (process.env.NODE_ENV === 'production') {
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
+  app.use(basicAuth(authUser, authPass));
 }
 app.use(expressStatusMonitor());
 app.use(compression());
