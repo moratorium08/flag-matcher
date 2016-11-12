@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "async": "^2.1.2",
+    "basic-auth": "^1.0.4",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.15.2",
     "chalk": "^1.1.3",

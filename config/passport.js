@@ -12,6 +12,11 @@ const OpenIDStrategy = require('passport-openid').Strategy;
 const OAuthStrategy = require('passport-oauth').OAuthStrategy;
 const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 
+const basicAuth = require('basic-auth');
+
+const authUser = process.env.AUTH_USER || Math.random().toString();
+const authPass = process.env.AUTH_PASSWORD || Math.random().toString();
+
 const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
@@ -511,6 +516,16 @@ passport.use('pinterest', new OAuth2Strategy({
  * Login Required middleware.
  */
 exports.isAuthenticated = (req, res, next) => {
+  if (process.env.NODE_ENV === 'production') {
+    const credentials = basicAuth(req);
+
+    if (!credentials || credentials.name !== authUser || credentials.pass !== authPass) {
+      res.statusCode = 401;
+      res.setHeader('WWW-Authenticate', 'Basic realm="Input User and Pass distributed in TSG slack"');
+      return res.end('Unauthorized');
+    }
+  }
+
   if (req.isAuthenticated()) {
     return next();
   }
