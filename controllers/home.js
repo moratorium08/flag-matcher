@@ -5,7 +5,7 @@ const Problem = require('../models/Problem');
  * Home page.
  */
 exports.index = (req, res) => {
-  Problem.find().sort({ _id: -1 }).limit(10).populate('author')
+  Problem.find().sort({ _id: -1 }).limit(100).populate('author')
   .exec((err, problems) => {
     res.render('home', {
       title: 'Problems',
