@@ -13,10 +13,8 @@
       ul.nav.navbar-nav
         li(class=(title == 'Home') ? 'active' : undefined)
           a(href='/') Home
-        li(class=(title == 'Contact') ? 'active' : undefined)
-          a(href='/contact') Contact
         li
-          a(href='/status') Status
+          a(href='/ranking') Ranking
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=(title == 'Login') ? 'active' : undefined)

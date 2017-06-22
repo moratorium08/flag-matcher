@@ -31,6 +31,7 @@ dotenv.load({ path: '.env.example' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const contactController = require('./controllers/contact');
+const rankingController = require('./controllers/ranking');
 
 /**
  * API keys and Passport configuration.
@@ -118,14 +119,15 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 app.get('/', passportConfig.isAuthenticated, homeController.index);
 app.post('/problem', passportConfig.isAuthenticated, homeController.postProblem);
 app.get('/problem/:id', passportConfig.isAuthenticated, homeController.getProblem);
-app.post('/problem/:id', passportConfig.isAuthenticated, homeController.postFlag);
+//app.post('/problem/:id', passportConfig.isAuthenticated, homeController.postFlag);
+app.get('/ranking', rankingController.ranking);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
 app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
-app.get('/contact', contactController.getContact);
-app.post('/contact', contactController.postContact);
+//app.get('/contact', contactController.getContact);
+//app.post('/contact', contactController.postContact);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.post('/account/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);

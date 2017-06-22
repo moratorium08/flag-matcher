@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1 Ranking
+  .table-responsive
+    table.table
+      thead
+        tr
+          th Name
+          th Score
+      tbody
+        each solver in users
+          tr
+            td= solver.name
+            td= solver.count
