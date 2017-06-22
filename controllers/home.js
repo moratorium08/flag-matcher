@@ -14,6 +14,16 @@ exports.index = (req, res) => {
   });
 };
 
+exports.home2 = (req, res) => {
+  Problem.find().sort({ _id: -1 }).limit(100).populate('author')
+  .exec((err, problems) => {
+    res.render('home2', {
+      title: 'Problems',
+      problems,
+    });
+  });
+};
+
 /**
  * POST /problem
  */

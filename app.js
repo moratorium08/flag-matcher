@@ -23,7 +23,7 @@ const sass = require('node-sass-middleware');
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.load({ path: '.env.example' });
+dotenv.load({ path: '.env' });
 
 /**
  * Controllers (route handlers).
@@ -117,9 +117,10 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  * Primary app routes.
  */
 app.get('/', passportConfig.isAuthenticated, homeController.index);
+app.get('/home2', passportConfig.isAuthenticated, homeController.home2);
 app.post('/problem', passportConfig.isAuthenticated, homeController.postProblem);
 app.get('/problem/:id', passportConfig.isAuthenticated, homeController.getProblem);
-//app.post('/problem/:id', passportConfig.isAuthenticated, homeController.postFlag);
+app.post('/problem/:id', passportConfig.isAuthenticated, homeController.postFlag);
 app.get('/ranking', rankingController.ranking);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
